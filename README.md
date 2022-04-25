@@ -61,3 +61,9 @@ $ npm run dev
 ```
 
 Frontend is now available at : http://127.0.0.1:3000/
+
+### Refresh backend api
+
+```
+$ npm run update-backend
+```
