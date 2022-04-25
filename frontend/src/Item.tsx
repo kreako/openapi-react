@@ -1,5 +1,6 @@
-import { Query, useQuery } from "react-query"
-import { getItem } from "./api"
+import { useQuery } from "react-query"
+import { useParams } from "react-router"
+import { getItem, keysItem } from "./api"
 import Loader from "./Loader"
 
 type LabelProps = { label: string }
@@ -9,7 +10,9 @@ function Label({ label }: LabelProps) {
 }
 
 export default function Item() {
-  const query = useQuery("item", getItem)
+  let params = useParams()
+  const id = Number(params.itemId)
+  const query = useQuery(keysItem.item(id), getItem)
   const queryStatus = <div className="mt-8 font-mono">query status : {query.status}</div>
   if (query.data) {
     return (
