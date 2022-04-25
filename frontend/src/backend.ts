@@ -7,12 +7,22 @@ export interface paths {
   "/": {
     get: operations["root__get"];
   };
+  "/{item_id}": {
+    get: operations["item__item_id__get"];
+  };
 }
 
 export interface components {
   schemas: {
+    /** HTTPValidationError */
+    HTTPValidationError: {
+      /** Detail */
+      detail?: components["schemas"]["ValidationError"][];
+    };
     /** Item */
     Item: {
+      /** Id */
+      id: number;
       /** Name */
       name: string;
       /** Description */
@@ -27,6 +37,20 @@ export interface components {
        */
       tags?: string[];
     };
+    /** ItemList */
+    ItemList: {
+      /** Items */
+      items: number[];
+    };
+    /** ValidationError */
+    ValidationError: {
+      /** Location */
+      loc: (Partial<string> & Partial<number>)[];
+      /** Message */
+      msg: string;
+      /** Error Type */
+      type: string;
+    };
   };
 }
 
@@ -36,7 +60,28 @@ export interface operations {
       /** Successful Response */
       200: {
         content: {
+          "application/json": components["schemas"]["ItemList"];
+        };
+      };
+    };
+  };
+  item__item_id__get: {
+    parameters: {
+      path: {
+        item_id: number;
+      };
+    };
+    responses: {
+      /** Successful Response */
+      200: {
+        content: {
           "application/json": components["schemas"]["Item"];
+        };
+      };
+      /** Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
         };
       };
     };
